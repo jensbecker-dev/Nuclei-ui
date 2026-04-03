@@ -8,8 +8,6 @@
         <p class="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-brand-600 dark:text-brand-300">
             Cybersecurity Operations</p>
         <h1 class="text-3xl font-semibold leading-tight">Vulnerability Management Command Center</h1>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">A clean executive snapshot of scan coverage, risk
-            exposure, and compliance posture.</p>
     </div>
     <p
         class="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
@@ -67,6 +65,28 @@
         <li>• Align finding owners and due dates to improve SLA compliance trend lines.</li>
         <li>• Export CSV/JSON evidence for governance reviews and stakeholder briefings.</li>
     </ul>
+</section>
+
+<section class="mt-6 dashboard-card p-5">
+    <div class="mb-3 flex items-center justify-between gap-3">
+        <h2 class="text-lg font-semibold">Recent Scan Activity</h2>
+        <a href="{{ url_for('ui.scans_page') }}" class="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-semibold hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800">Open Scans Page</a>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+            <thead class="text-left text-slate-500">
+                <tr>
+                    <th class="px-3 py-2">ID</th>
+                    <th class="px-3 py-2">Target</th>
+                    <th class="px-3 py-2">Status</th>
+                    <th class="px-3 py-2">Results</th>
+                    <th class="px-3 py-2">Critical / High</th>
+                    <th class="px-3 py-2">Updated</th>
+                </tr>
+            </thead>
+            <tbody id="dashboard-scans-body"></tbody>
+        </table>
+    </div>
 </section>
 {% endblock %}
 

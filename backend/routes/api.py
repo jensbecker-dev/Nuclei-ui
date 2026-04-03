@@ -160,6 +160,32 @@ def _parse_scan_raw_output(raw_output: str | None) -> list[dict]:
     return findings
 
 
+def _extract_scan_telemetry(raw_output: str | None) -> dict:
+    text = raw_output or ""
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+
+    info_lines = [line for line in lines if line.startswith("[INF]")]
+    warn_lines = [line for line in lines if line.startswith("[WRN]")]
+    error_lines = [line for line in lines if line.startswith("[ERR]")]
+
+    metrics = {}
+    for line in info_lines + warn_lines:
+        if ":" in line:
+            key, value = line.split(":", 1)
+            key = key.replace("[INF]", "").replace("[WRN]", "").strip()
+            if key and key not in metrics:
+                metrics[key] = value.strip()
+
+    return {
+        "infoLines": info_lines,
+        "warningLines": warn_lines,
+        "errorLines": error_lines,
+        "metrics": metrics,
+        "rawLogPreview": lines[:200],
+        "totalLogLines": len(lines),
+    }
+
+
 def _serialize_scan_result_item(item: dict, index: int) -> dict:
     payload = json.dumps(item, ensure_ascii=False)
     intelligence = _extract_finding_intelligence(payload)
@@ -272,7 +298,8 @@ def get_scan_results(scan_id: int):
     scan = _scan_query_for_current_user().filter(Scan.id == scan_id).first_or_404()
     results = _parse_scan_raw_output(scan.raw_output)
     payload = [_serialize_scan_result_item(item, idx) for idx, item in enumerate(results)]
-    return jsonify({"scan": _serialize_scan(scan), "results": payload, "count": len(payload)})
+    telemetry = _extract_scan_telemetry(scan.raw_output)
+    return jsonify({"scan": _serialize_scan(scan), "results": payload, "count": len(payload), "telemetry": telemetry})
 
 
 @api_bp.route("/scans", methods=["POST"])
@@ -638,7 +665,11 @@ def _run_scan_task(app, scan_id: int) -> None:
 
         summary = summarize_by_severity(result.findings)
 
-        scan.raw_output = result.raw_output
+        combined_output = (result.raw_output or "")
+        if result.stderr:
+            combined_output = f"{combined_output}\n{result.stderr}" if combined_output else result.stderr
+
+        scan.raw_output = combined_output
         scan.findings_count = len(result.findings)
         scan.critical_count = summary["critical"]
         scan.high_count = summary["high"]

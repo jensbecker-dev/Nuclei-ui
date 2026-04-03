@@ -1,10 +1,8 @@
 # Nuclei WebUI (Corporate Vulnerability Management)
 
-A modern, high-signal Web UI for the Nuclei scanner on **Kali Linux** — built without Docker and designed for:
 
-- Cybersecurity managers who need actionable tooling visibility
-- Security teams that need fast triage and operational governance
-- Engineering-focused storytelling (for example a Medium post like **“How I created a WebUI for Nuclei in 2026”**)
+
+A modern, high-signal Web UI for the Nuclei scanner on **Kali Linux** — designed for cybersecurity managers and cybersecurity teams who need actionable tooling visibility, fast triage, and operational governance.
 
 ## Why this project exists
 
@@ -169,20 +167,3 @@ If you are writing **“How I created a WebUI for Nuclei in 2026”**, highlight
 - Use HTTPS and a production WSGI server in non-dev environments
 - Restrict network exposure and enforce least privilege for scanner execution
 - Review and sanitize advanced scan arguments in controlled environments
-
-## GitHub publishing checklist (safe push)
-
-Before `git push`, verify:
-
-1. `.env` is local-only and **never committed** (`.env.example` is committed instead)
-2. `instance/` and all `*.db` files are not tracked
-3. No local shell/profile files are tracked (for example `.bashrc`, `.gitconfig`)
-4. No API keys/tokens/private keys exist in tracked files
-5. Use sanitized screenshots/data for blog posts
-
-Recommended quick checks:
-
-```bash
-git status
-git ls-files | grep -E '(^\.env$|\.db$|instance/|\.bashrc|\.gitconfig)'
-```

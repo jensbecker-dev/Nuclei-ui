@@ -84,7 +84,7 @@ class NucleiService:
         tags: str | None = None,
         advanced_args: str | None = None,
     ) -> list[str]:
-        cmd = [self.binary, "-u", target, "-jsonl", "-silent", "-duc"]
+        cmd = [self.binary, "-u", target, "-jsonl", "-duc"]
 
         if template:
             cmd.extend(["-t", template])
