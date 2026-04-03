@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.pytest_cache/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+venv/
+
+# Local runtime artifacts
+instance/
+*.db
+*.sqlite
+*.sqlite3
+*.log
+.server.log
+.server-*.log
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# IDE/editor
+.vscode
+.vscode/
+.idea
+.idea/
+
+# Local/private tool configs (keep out of public repo)
+.claude/
+.mcp.json
+
+# Accidental shell/profile files in workspace
+.bash_profile
+.bashrc
+.gitconfig
+.gitmodules
+.profile
+.ripgreprc
+.zprofile
+.zshrc
+
+# OS files
+.DS_Store
+Thumbs.db

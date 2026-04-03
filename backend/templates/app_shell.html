@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="app-shell min-h-screen">
+    <div class="flex min-h-screen">
+        <div id="sidebar-overlay" class="fixed inset-0 z-30 hidden bg-slate-950/50 md:hidden"></div>
+
+        <div id="sidebar-spacer" class="hidden w-[19rem] md:block"></div>
+
+        <aside id="app-sidebar"
+            class="dashboard-sidebar fixed inset-y-0 left-0 z-40 w-[19rem] -translate-x-full border-r border-slate-200 bg-white/95 backdrop-blur-xl transition-all duration-300 dark:border-slate-800 dark:bg-slate-900/95 md:translate-x-0">
+            <div class="flex h-24 items-center justify-center gap-3 px-4">
+                <a href="{{ url_for('ui.dashboard') }}"
+                    class="grid h-12 w-12 place-content-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-lg shadow-brand-900/20">
+                    <span class="text-lg font-bold">N</span>
+                </a>
+                <div id="sidebar-brand" class="min-w-0 flex-1">
+                    <p class="truncate text-sm font-semibold text-slate-900 dark:text-slate-100">Nuclei Corporate VM</p>
+                    <p class="truncate text-xs text-slate-500 dark:text-slate-400">Security Operations Console</p>
+                </div>
+            </div>
+
+            <div class="px-3 pb-2">
+                <button id="sidebar-toggle"
+                    class="menu-toggle grid h-11 w-full grid-cols-[1fr_auto_1fr] items-center rounded-xl border border-slate-200 bg-white px-3 text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
+                    aria-label="Collapse navigation">
+                    <span id="sidebar-toggle-left" class="justify-self-start text-xs font-medium opacity-70">Collapse
+                        navigation</span>
+                    <span id="sidebar-toggle-icon" class="justify-self-center text-sm">◀</span>
+                    <span id="sidebar-toggle-right" class="justify-self-end text-xs opacity-50">Layout</span>
+                </button>
+            </div>
+
+            <nav class="menu-grid px-3 py-3">
+                <a href="{{ url_for('ui.dashboard') }}"
+                    class="app-nav-item {% if active_page == 'dashboard' %}active{% endif %}" data-label="Dashboard"
+                    data-hint="Executive Overview">
+                    <span class="app-nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5">
+                            <path d="M3 13h8V3H3v10Zm10 8h8V3h-8v18ZM3 21h8v-6H3v6Z" />
+                        </svg>
+                    </span>
+                    <span class="app-nav-text"><span>Dashboard</span><span>Executive Overview</span></span>
+                </a>
+
+                <a href="{{ url_for('ui.scans_page') }}"
+                    class="app-nav-item {% if active_page == 'scans' %}active{% endif %}" data-label="Scans"
+                    data-hint="Scan Operations">
+                    <span class="app-nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5">
+                            <path d="M12 3 4 7v6c0 4.2 2.8 8.1 8 9 5.2-.9 8-4.8 8-9V7l-8-4Z" />
+                            <path d="m9 12 2 2 4-4" />
+                        </svg>
+                    </span>
+                    <span class="app-nav-text"><span>Scans</span><span>Scan Operations</span></span>
+                </a>
+
+                <a href="{{ url_for('ui.findings_page') }}"
+                    class="app-nav-item {% if active_page == 'findings' %}active{% endif %}" data-label="Findings"
+                    data-hint="Risk Intelligence">
+                    <span class="app-nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5">
+                            <path d="M12 9v4" />
+                            <path d="M12 17h.01" />
+                            <path d="M10.3 3.5 1.9 18a2 2 0 0 0 1.7 3h16.8a2 2 0 0 0 1.7-3L13.7 3.5a2 2 0 0 0-3.4 0Z" />
+                        </svg>
+                    </span>
+                    <span class="app-nav-text"><span>Findings</span><span>Risk Intelligence</span></span>
+                </a>
+
+                <a href="{{ url_for('ui.workflow_page') }}"
+                    class="app-nav-item {% if active_page == 'workflow' %}active{% endif %}" data-label="Workflow"
+                    data-hint="Remediation Flow">
+                    <span class="app-nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5">
+                            <path d="M4 6h16" />
+                            <path d="M7 12h10" />
+                            <path d="M10 18h4" />
+                        </svg>
+                    </span>
+                    <span class="app-nav-text"><span>Workflow</span><span>Remediation Flow</span></span>
+                </a>
+            </nav>
+
+            {% block menu_management %}{% endblock %}
+
+            <div class="mt-auto space-y-2 px-3 pb-4 pt-3">
+                <button id="theme-toggle" class="app-nav-item app-nav-item--action w-full justify-center">
+                    <span class="app-nav-icon" id="theme-icon">☀️</span>
+                    <span class="app-nav-text"><span id="theme-label">Switch theme</span><span>Light /
+                            Dark</span></span>
+                </button>
+
+                <form method="post" action="{{ url_for('auth.logout') }}">
+                    <button
+                        class="app-nav-item app-nav-item--action w-full justify-center border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100 dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-rose-300 dark:hover:bg-rose-900/40">
+                        <span class="app-nav-icon border-rose-200 dark:border-rose-900/60">↩</span>
+                        <span class="app-nav-text"><span>Logout</span><span>End current session</span></span>
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <main class="min-w-0 flex-1 p-4 md:p-8">
+            <div class="mb-4 flex items-center justify-between md:hidden">
+                <button id="mobile-menu-open"
+                    class="rounded-lg border border-slate-300 px-3 py-2 text-sm dark:border-slate-700">☰ Menu</button>
+                <p class="text-xs text-slate-500 dark:text-slate-400">{{ current_user.username }}</p>
+            </div>
+
+            {% block app_content %}{% endblock %}
+        </main>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/app-shell.js') }}"></script>
+{% block page_scripts %}{% endblock %}
+{% endblock %}

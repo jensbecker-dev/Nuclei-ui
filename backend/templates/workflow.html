@@ -1,0 +1,61 @@
+{% extends 'app_shell.html' %}
+
+{% block title %}Workflow · Nuclei WebUI{% endblock %}
+
+{% block app_content %}
+<header class="mb-6">
+    <h1 class="text-2xl font-semibold">Workflow & Triage Pipeline</h1>
+    <p class="text-sm text-slate-500 dark:text-slate-400">Kanban-style operational pipeline for triage, ownership, and
+        resolution tracking.</p>
+</header>
+
+<section class="grid grid-cols-1 gap-4 lg:grid-cols-4">
+    <div class="dashboard-card p-4">
+        <p class="text-xs uppercase tracking-wide text-slate-500">Open</p>
+        <p id="wf-open" class="mt-2 text-2xl font-semibold text-rose-500">0</p>
+    </div>
+    <div class="dashboard-card p-4">
+        <p class="text-xs uppercase tracking-wide text-slate-500">In Progress</p>
+        <p id="wf-progress" class="mt-2 text-2xl font-semibold text-amber-500">0</p>
+    </div>
+    <div class="dashboard-card p-4">
+        <p class="text-xs uppercase tracking-wide text-slate-500">Accepted Risk</p>
+        <p id="wf-accepted" class="mt-2 text-2xl font-semibold text-sky-500">0</p>
+    </div>
+    <div class="dashboard-card p-4">
+        <p class="text-xs uppercase tracking-wide text-slate-500">Resolved</p>
+        <p id="wf-resolved" class="mt-2 text-2xl font-semibold text-emerald-500">0</p>
+    </div>
+</section>
+
+<section class="dashboard-card mt-6 p-5">
+    <h2 class="mb-3 text-lg font-semibold">Current Pipeline</h2>
+    <div id="workflow-list" class="space-y-2 text-sm"></div>
+</section>
+
+{% if current_user.role == 'admin' %}
+<section class="dashboard-card mt-6 p-5 border border-rose-300/70 dark:border-rose-700/60">
+    <div class="mb-3">
+        <h2 class="text-lg font-semibold text-rose-700 dark:text-rose-300">Data Management (Admin)</h2>
+        <p class="text-sm text-slate-600 dark:text-slate-300">Use these controls carefully. Actions are immediate and
+            cannot be undone.</p>
+    </div>
+    <div class="grid grid-cols-1 gap-3 md:grid-cols-3">
+        <button id="purge-scans-btn"
+            class="rounded-xl border border-rose-300 bg-rose-50 px-4 py-2 text-sm font-semibold text-rose-700 hover:bg-rose-100 dark:border-rose-800 dark:bg-rose-950/30 dark:text-rose-300 dark:hover:bg-rose-900/40">Delete
+            all scans</button>
+        <button id="purge-findings-btn"
+            class="rounded-xl border border-rose-300 bg-rose-50 px-4 py-2 text-sm font-semibold text-rose-700 hover:bg-rose-100 dark:border-rose-800 dark:bg-rose-950/30 dark:text-rose-300 dark:hover:bg-rose-900/40">Delete
+            all findings</button>
+        <button id="purge-database-btn"
+            class="rounded-xl border border-rose-500 bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-700 dark:border-rose-400 dark:bg-rose-600 dark:hover:bg-rose-500">Delete
+            all database values</button>
+    </div>
+    <p id="purge-flash" class="mt-3 text-sm text-slate-500 dark:text-slate-400"></p>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block page_scripts %}
+<script src="{{ url_for('static', filename='js/pages/workflow-page.js') }}"></script>
+{% endblock %}

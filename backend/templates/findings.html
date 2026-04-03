@@ -1,0 +1,88 @@
+{% extends 'app_shell.html' %}
+
+{% block title %}Findings · Nuclei WebUI{% endblock %}
+
+{% block app_content %}
+<header class="mb-6 flex flex-wrap items-center justify-between gap-4">
+    <div>
+        <h1 class="text-2xl font-semibold">Findings Intelligence</h1>
+        <p class="text-sm text-slate-500 dark:text-slate-400">Detailed CVE and CVSS intelligence for manually promoted
+            scan results.</p>
+    </div>
+</header>
+
+<section class="dashboard-card p-5">
+    <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap gap-2">
+            <select id="filter-status"
+                class="rounded-lg border border-slate-300 px-3 py-2 text-xs dark:border-slate-700 dark:bg-slate-800">
+                <option value="">All Status</option>
+                <option value="open">open</option>
+                <option value="in_progress">in_progress</option>
+                <option value="accepted_risk">accepted_risk</option>
+                <option value="resolved">resolved</option>
+            </select>
+            <select id="filter-severity"
+                class="rounded-lg border border-slate-300 px-3 py-2 text-xs dark:border-slate-700 dark:bg-slate-800">
+                <option value="">All Severity</option>
+                <option value="critical">critical</option>
+                <option value="high">high</option>
+                <option value="medium">medium</option>
+                <option value="low">low</option>
+                <option value="info">info</option>
+            </select>
+        </div>
+        <div class="flex gap-2">
+            <a href="/api/export/findings.csv"
+                class="rounded-lg border border-slate-300 px-3 py-2 text-xs hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800">Export
+                CSV</a>
+            <a href="/api/export/findings.json"
+                class="rounded-lg border border-slate-300 px-3 py-2 text-xs hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800">Export
+                JSON</a>
+        </div>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+            <thead class="text-left text-slate-500">
+                <tr>
+                    <th class="px-3 py-2">ID</th>
+                    <th class="px-3 py-2">Severity</th>
+                    <th class="px-3 py-2">CVE</th>
+                    <th class="px-3 py-2">CVSS</th>
+                    <th class="px-3 py-2">Template</th>
+                    <th class="px-3 py-2">Host</th>
+                    <th class="px-3 py-2">Status</th>
+                    <th class="px-3 py-2">Action</th>
+                </tr>
+            </thead>
+            <tbody id="findings-table-body"></tbody>
+        </table>
+    </div>
+</section>
+
+<section class="dashboard-card mt-6 p-5">
+    <h2 class="mb-2 text-lg font-semibold">Management View</h2>
+    <p class="text-sm text-slate-600 dark:text-slate-300">
+        Use this table as the primary source for prioritization meetings: severity, CVSS context, ownership, and status
+        in one place.
+        Open any finding to access full technical evidence before assigning remediation work.
+    </p>
+</section>
+
+<div id="finding-detail-modal"
+    class="fixed inset-0 z-50 hidden items-end justify-center bg-slate-950/60 p-4 md:items-center">
+    <div class="dashboard-card w-full max-w-4xl p-5">
+        <div class="mb-4 flex items-center justify-between">
+            <h3 class="text-lg font-semibold">Finding Detail</h3>
+            <button id="close-finding-modal"
+                class="rounded-md border border-slate-300 px-2 py-1 text-xs dark:border-slate-700">Close</button>
+        </div>
+        <div id="finding-detail-content" class="space-y-3 text-sm"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block page_scripts %}
+<script src="{{ url_for('static', filename='js/pages/findings-page.js') }}"></script>
+{% endblock %}

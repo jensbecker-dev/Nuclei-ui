@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" :class="{'dark': darkMode}" x-data>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Nuclei WebUI{% endblock %}</title>
+    <script>
+        (function () {
+            const stored = localStorage.getItem('theme');
+            const dark = stored ? stored === 'dark' : false;
+            document.documentElement.classList.toggle('dark', dark);
+        })();
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#ecfeff',
+                            100: '#cffafe',
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                            700: '#0e7490',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    {% block head %}{% endblock %}
+</head>
+
+<body class="min-h-screen bg-slate-100 text-slate-900 transition-colors dark:bg-slate-950 dark:text-slate-100">
+    {% block body %}{% endblock %}
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

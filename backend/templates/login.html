@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Login · Nuclei WebUI{% endblock %}
+
+{% block body %}
+<div class="min-h-screen flex items-center justify-center p-6">
+    <div
+        class="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-xl dark:border-slate-800 dark:bg-slate-900">
+        <div class="mb-8 flex items-center gap-3">
+            <button class="grid h-12 w-12 place-content-center rounded-xl bg-brand-600 text-white shadow-lg"
+                aria-label="Nuclei Dashboard">
+                <span class="text-xl font-bold">N</span>
+            </button>
+            <div>
+                <h1 class="text-xl font-semibold">Nuclei Corporate VM</h1>
+                <p class="text-sm text-slate-500 dark:text-slate-400">Secure Scan Operations · Kali Host Ready</p>
+            </div>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div
+            class="mb-4 rounded-lg border border-rose-300 bg-rose-50 px-3 py-2 text-sm text-rose-700 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-300">
+            {{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <form method="post" class="space-y-4">
+            <div>
+                <label for="username" class="mb-1 block text-sm font-medium">Username</label>
+                <input id="username" name="username" type="text" autocomplete="username" required
+                    class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 outline-none ring-brand-500 focus:ring-2 dark:border-slate-700 dark:bg-slate-800"
+                    placeholder="Developer">
+            </div>
+            <div>
+                <label for="password" class="mb-1 block text-sm font-medium">Password</label>
+                <input id="password" name="password" type="password" autocomplete="current-password" required
+                    class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 outline-none ring-brand-500 focus:ring-2 dark:border-slate-700 dark:bg-slate-800"
+                    placeholder="••••••••">
+            </div>
+            <button type="submit"
+                class="w-full rounded-lg bg-brand-600 px-4 py-2.5 font-semibold text-white hover:bg-brand-700">Sign
+                in</button>
+        </form>
+
+        <p class="mt-6 text-xs text-slate-500 dark:text-slate-400">Default Access: Developer / Nucl31-ui</p>
+    </div>
+</div>
+{% endblock %}

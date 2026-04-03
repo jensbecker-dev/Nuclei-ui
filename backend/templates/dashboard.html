@@ -1,0 +1,76 @@
+{% extends 'app_shell.html' %}
+
+{% block title %}Dashboard · Nuclei WebUI{% endblock %}
+
+{% block app_content %}
+<header class="mb-6 flex flex-wrap items-center justify-between gap-4">
+    <div>
+        <p class="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-brand-600 dark:text-brand-300">
+            Cybersecurity Operations</p>
+        <h1 class="text-3xl font-semibold leading-tight">Vulnerability Management Command Center</h1>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">A clean executive snapshot of scan coverage, risk
+            exposure, and compliance posture.</p>
+    </div>
+    <p
+        class="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+        {{ current_user.username }}</p>
+</header>
+
+<section class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div class="dashboard-card kpi-card p-4">
+        <p class="text-sm text-slate-500">Total Scans</p>
+        <p id="sum-total-scans" class="mt-2 text-2xl font-semibold">0</p>
+    </div>
+    <div class="dashboard-card kpi-card p-4">
+        <p class="text-sm text-slate-500">Open Findings</p>
+        <p id="sum-open-findings" class="mt-2 text-2xl font-semibold text-rose-500">0</p>
+    </div>
+    <div class="dashboard-card kpi-card p-4">
+        <p class="text-sm text-slate-500">Overdue Open</p>
+        <p id="sum-overdue" class="mt-2 text-2xl font-semibold">0</p>
+    </div>
+    <div class="dashboard-card kpi-card p-4">
+        <p class="text-sm text-slate-500">SLA Compliance</p>
+        <p id="sum-sla" class="mt-2 text-2xl font-semibold text-emerald-500">0%</p>
+    </div>
+</section>
+
+<section class="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-5">
+    <div class="dashboard-card xl:col-span-2 p-5">
+        <h2 class="mb-3 text-lg font-semibold">Nuclei Runtime</h2>
+        <p id="health-version" class="text-sm text-slate-600 dark:text-slate-300">Loading runtime status ...</p>
+        <div class="mt-4 grid grid-cols-1 gap-2">
+            <a href="{{ url_for('ui.scans_page') }}"
+                class="rounded-lg bg-brand-600 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-brand-700">Open
+                Scans</a>
+            <a href="{{ url_for('ui.findings_page') }}"
+                class="rounded-lg border border-slate-300 px-3 py-2 text-center text-sm hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800">Open
+                Findings</a>
+            <a href="{{ url_for('ui.workflow_page') }}"
+                class="rounded-lg border border-slate-300 px-3 py-2 text-center text-sm hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800">Open
+                Workflow</a>
+        </div>
+    </div>
+
+    <div class="dashboard-card xl:col-span-3 p-5">
+        <h2 class="mb-3 text-lg font-semibold">Severity Distribution (Findings)</h2>
+        <div class="relative h-72"><canvas id="severityChart"></canvas></div>
+    </div>
+</section>
+
+<section class="mt-6 dashboard-card p-5">
+    <h2 class="mb-3 text-lg font-semibold">Executive Briefing</h2>
+    <ul class="grid grid-cols-1 gap-2 text-sm text-slate-600 dark:text-slate-300 md:grid-cols-2">
+        <li>• Prioritize <span class="font-semibold">critical and high</span> findings for immediate response windows.
+        </li>
+        <li>• Use manual promotion to keep noise out of KPI and compliance reporting.</li>
+        <li>• Align finding owners and due dates to improve SLA compliance trend lines.</li>
+        <li>• Export CSV/JSON evidence for governance reviews and stakeholder briefings.</li>
+    </ul>
+</section>
+{% endblock %}
+
+{% block page_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/pages/dashboard-page.js') }}"></script>
+{% endblock %}
