@@ -1,7 +1,8 @@
 # Nuclei WebUI (Corporate Vulnerability Management)
 
-images/dashboard_lightmode.png
-images/dashboard_darkmode.png
+![Dashboard Light Mode](images/dashboard_lightmode.png)
+
+![Dashboard Dark Mode](images/dashboard_darkmode.png)
 
 A modern, high-signal Web UI for the Nuclei scanner on **Kali Linux** — designed for cybersecurity managers and cybersecurity teams who need actionable tooling visibility, fast triage, and operational governance.
 
