@@ -84,6 +84,17 @@
                 selected to findings</button>
         </div>
 
+        <div
+            class="mb-4 rounded-xl border border-slate-200 bg-white/70 p-3 text-xs dark:border-slate-700 dark:bg-slate-900/60">
+            <p class="mb-2 font-semibold">Nuclei Process Telemetry</p>
+            <div id="scan-telemetry-metrics" class="grid grid-cols-1 gap-2 md:grid-cols-2"></div>
+            <details class="mt-3">
+                <summary class="cursor-pointer font-medium">Show scan runtime log lines</summary>
+                <pre id="scan-telemetry-log"
+                    class="mt-2 max-h-44 overflow-auto rounded-lg border border-slate-200 p-2 text-[11px] dark:border-slate-700"></pre>
+            </details>
+        </div>
+
         <div class="max-h-[60vh] overflow-auto">
             <table class="min-w-full text-sm">
                 <thead class="text-left text-slate-500">

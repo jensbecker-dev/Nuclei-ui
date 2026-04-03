@@ -7,6 +7,8 @@
   const resultsBody = document.getElementById('scan-results-body');
   const promoteSelectedBtn = document.getElementById('promote-selected-btn');
   const resultSummary = document.getElementById('result-summary');
+  const telemetryMetrics = document.getElementById('scan-telemetry-metrics');
+  const telemetryLog = document.getElementById('scan-telemetry-log');
 
   let activeScanId = null;
   let refreshHandle = null;
@@ -44,6 +46,29 @@
     if (status === 'completed') return 'Completed and ready for review';
     if (status === 'failed') return 'Execution failed';
     return 'State unknown';
+  }
+
+  function renderTelemetry(data) {
+    const telemetry = data?.telemetry || {};
+    const metrics = telemetry.metrics || {};
+
+    if (telemetryMetrics) {
+      const entries = Object.entries(metrics);
+      if (!entries.length) {
+        telemetryMetrics.innerHTML = '<p class="text-slate-500">No telemetry metrics captured for this scan.</p>';
+      } else {
+        telemetryMetrics.innerHTML = entries.map(([key, value]) => `
+          <div class="rounded-lg border border-slate-200 px-2 py-1 dark:border-slate-700">
+            <p class="font-medium">${escapeHtml(key)}</p>
+            <p class="text-slate-600 dark:text-slate-300">${escapeHtml(value)}</p>
+          </div>
+        `).join('');
+      }
+    }
+
+    if (telemetryLog) {
+      telemetryLog.textContent = (telemetry.rawLogPreview || []).join('\n');
+    }
   }
 
   function timeAgo(isoString) {
@@ -107,6 +132,7 @@
     const data = await res.json();
 
     resultSummary.textContent = `Scan #${scanId} · ${data.count} results · Only selected items will be promoted to findings`;
+    renderTelemetry(data);
     resultsBody.innerHTML = '';
 
     for (const result of data.results || []) {
